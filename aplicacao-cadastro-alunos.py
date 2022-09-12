@@ -1,9 +1,8 @@
-alunos = [
-    {'matricula':'1', 'curso':'ads', 'nome':'joão', 'idade':'18'}
-]
+alunos = []
 
+# Salvar
 def cadastrar():
-    print("### Operação Cadastrar ###")
+    print("\n ### Operação Cadastrar ###")
 
     matricula = input("Matricula: ")
     curso = input("curso: ")
@@ -21,31 +20,9 @@ def cadastrar():
     else: 
         menu()
 
-def remover():
-    print("### Operação Remover ###")
-
-    matricula = input("Digite a matricula do aluno para remover: ")
-    for key in alunos:
-        if matricula == key:
-            del matricula[key]
-            print("Aluno removido com sucesso!")
-            break
-
-    if int(input("Gostaria de remover outra pessoa? [1-Sim/2-Não] \n")) == 1:
-        remover()
-    else: 
-        menu()
-
-def listar():
-    print("### Operação Listar ###")
-
-    for i in range(0, len(alunos)):
-        print(str(alunos[i]['matricula']) + ', ' + str(alunos[i]['curso']) + ', ' + str(alunos[i]['nome']) + ', ' + str(alunos[i]['idade']))
-
-    menu()
-
+# Atualizar
 def atualizar():
-    print("### Operação Atualizar ###")
+    print("\n ### Operação Atualizar ###")
 
     matricula = input("Matricula: ")
     curso = input("curso: ")
@@ -70,8 +47,42 @@ def atualizar():
     else:
         menu()
 
+# Listar 
+def listar():
+    print("\n ### Operação Listar ###")
+
+    if len(alunos) > 0:
+        for i in range(0, len(alunos)):
+            print("Matrícula: " + str(alunos[i]['matricula']) + ', Curso: ' + str(alunos[i]['curso']) + ', Nome: ' + str(alunos[i]['nome']) + ', Idade: ' + str(alunos[i]['idade']))
+    else:
+        print("Nenhum aluno cadastrado!")
+
+    menu()
+
+# Remover
+def remover():
+    print("\n ### Operação Remover ###")
+
+    matricula = input("Digite a matricula do aluno para remover: ")
+    i = 0
+    for key in alunos:
+        if matricula == key['matricula']:
+            del alunos[i]
+            print("Aluno removido com sucesso!")
+
+            if int(input("Gostaria de remover outra pessoa? [1-Sim/2-Não] \n")) == 1:
+                remover()
+            else: 
+                menu()
+            break
+        i += 1
+    if int(input("Matrícula não encontrada. Tentar Novamente? [1-Sim/2-Não] \n")) == 1:
+        remover()
+    else: 
+        menu()
+
 def menu():
-    print("### Menu ### \n# 1 - cadastrar # \n# 2 - remover # \n# 3 - listar # \n# 4 - atualizar # \n# 5 - fechar #")
+    print("\n ### Menu ### \n# 1 - cadastrar # \n# 2 - remover # \n# 3 - listar # \n# 4 - atualizar # \n# 5 - fechar #")
     resposta = int(input("Digite a operação: "))
 
     if resposta == 1:
@@ -82,5 +93,7 @@ def menu():
         listar()    
     elif resposta == 4:
         atualizar()
+    elif resposta == 5:
+        exit()
 
 menu()
