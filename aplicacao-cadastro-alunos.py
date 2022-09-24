@@ -12,6 +12,12 @@ def cadastrar():
     print("\n ### Operação Cadastrar ###")
 
     matricula = input("Matricula: ")
+    if encontraAluno(matricula):
+        if int(input("Matricula já cadastrada. Tentar Novamente? [1-Sim/2-Não] R: ")) == 1:
+            cadastrar()
+        else: 
+            menu()
+
     curso = input("curso: ")
     nome = input("nome: ")
     idade = input("idade: ")
@@ -21,7 +27,7 @@ def cadastrar():
     )
     
     if encontraAluno(matricula):
-            print("Aluno cadastrado com sucesso!")
+        print("Aluno cadastrado com sucesso!")
 
     if int(input("Gostaria de cadastrar uma nova pessoa? [1-Sim/2-Não] R: ")) == 1:
         cadastrar()
@@ -33,27 +39,28 @@ def atualizar():
     print("\n ### Operação Atualizar ###")
 
     matricula = input("Matricula: ")
-    curso = input("curso: ")
-    nome = input("nome: ")
-    idade = input("idade: ")
-    
-    for i in range(0, len(alunos)):
-        if alunos[i]['matricula'] == matricula:
-            alunos[i]['curso'] = curso
-            alunos[i]['nome'] = nome
-            alunos[i]['idade'] = idade
+    if encontraAluno(matricula):
+        curso = input("curso: ")
+        nome = input("nome: ")
+        idade = input("idade: ")
+        
+        for i in range(0, len(alunos)):
+            if alunos[i]['matricula'] == matricula:
+                alunos[i]['curso'] = curso
+                alunos[i]['nome'] = nome
+                alunos[i]['idade'] = idade
 
-            print("Aluno atualizado com sucesso!")
+                print("Aluno atualizado com sucesso!")
 
-            if int(input("Gostaria de atualizar outra pessoa? [1-Sim/2-Não] R: ")) == 1:
-                atualizar()
-            else: 
-                menu()
-                
-    if input("Matricula inexistente! Tentar novamente? [1-Sim/2-Não] R: ") == 1:
-        atualizar()
+                if int(input("Gostaria de atualizar outra pessoa? [1-Sim/2-Não] R: ")) == 1:
+                    atualizar()
+                else: 
+                    menu()
     else:
-        menu()
+        if int(input("Matrícula não encontrada. Tentar Novamente? [1-Sim/2-Não] R: ")) == 1:
+            atualizar()
+        else: 
+            menu()
 
 # Listar 
 def listar():
