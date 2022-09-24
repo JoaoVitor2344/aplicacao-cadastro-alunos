@@ -1,5 +1,12 @@
 alunos = []
 
+def encontraAluno(matricula):
+    for aluno in alunos:
+        if matricula == aluno['matricula']:
+            return 1
+    
+    return 0
+
 # Salvar
 def cadastrar():
     print("\n ### Operação Cadastrar ###")
@@ -12,10 +19,11 @@ def cadastrar():
     alunos.append(
         {'matricula':matricula, 'curso':curso, 'nome':nome, 'idade':idade}
     )
+    
+    if encontraAluno(matricula):
+            print("Aluno cadastrado com sucesso!")
 
-    print("Aluno cadastrado com sucesso!")
-
-    if int(input("Gostaria de cadastrar uma nova pessoa? [1-Sim/2-Não] \n")) == 1:
+    if int(input("Gostaria de cadastrar uma nova pessoa? [1-Sim/2-Não] R: ")) == 1:
         cadastrar()
     else: 
         menu()
@@ -37,12 +45,12 @@ def atualizar():
 
             print("Aluno atualizado com sucesso!")
 
-            if int(input("Gostaria de atualizar outra pessoa? [1-Sim/2-Não] \n")) == 1:
+            if int(input("Gostaria de atualizar outra pessoa? [1-Sim/2-Não] R: ")) == 1:
                 atualizar()
             else: 
                 menu()
                 
-    if input("Matricula inexistente! Tentar novamente? [1-Sim/2-Não]") == 1:
+    if input("Matricula inexistente! Tentar novamente? [1-Sim/2-Não] R: ") == 1:
         atualizar()
     else:
         menu()
@@ -64,22 +72,31 @@ def remover():
     print("\n ### Operação Remover ###")
 
     matricula = input("Digite a matricula do aluno para remover: ")
-    i = 0
-    for key in alunos:
-        if matricula == key['matricula']:
-            del alunos[i]
-            print("Aluno removido com sucesso!")
+    if encontraAluno(matricula):
+        for aluno in alunos:
+            for i in range(len(alunos)):
+                if matricula == aluno['matricula']:
+                    del alunos[i]
 
-            if int(input("Gostaria de remover outra pessoa? [1-Sim/2-Não] \n")) == 1:
-                remover()
-            else: 
-                menu()
-            break
-        i += 1
-    if int(input("Matrícula não encontrada. Tentar Novamente? [1-Sim/2-Não] \n")) == 1:
-        remover()
-    else: 
-        menu()
+                    if encontraAluno(matricula):
+                        if int(input("Não foi possivel remover o aluno. Tentar Novamente? [1-Sim/2-Não] R: ")) == 1:
+                            remover()
+                        else: 
+                            menu()
+                    else:
+                        print("Aluno removido com sucesso!")     
+
+                    if int(input("Gostaria de remover outra pessoa? [1-Sim/2-Não] R: ")) == 1:
+                        remover()
+                    else: 
+                        menu()
+                    
+                    break
+    else:
+        if int(input("Matrícula não encontrada. Tentar Novamente? [1-Sim/2-Não] R: ")) == 1:
+            remover()
+        else: 
+            menu()
 
 def menu():
     print("\n ### Menu ### \n# 1 - cadastrar # \n# 2 - remover # \n# 3 - listar # \n# 4 - atualizar # \n# 5 - fechar #")
@@ -96,4 +113,5 @@ def menu():
     elif resposta == 5:
         exit()
 
-menu()
+if __name__ == "__main__":
+    menu()
